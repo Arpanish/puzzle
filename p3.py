@@ -1,27 +1,25 @@
 import csv
-with open(r"C:\Users\ap\Desktop\pop.csv.csv",'r', newline='') as csvfile:
-    spamreader = csv.reader(csvfile)
-    # for row in spamreader:
-    #     print(', '.join(row))
-    for row in spamreader:
+f = open(r"C:\Users\ap\Desktop\pop.csv.csv", 'r')
+with f:
+     reader = csv.DictReader(f)
+     for row in reader:
         temp = [  ]
-        for col in spamreader:
-            c = col[0]
-            a = float(col[1])
-            b = float(col[2])
-            # print(f"{a} , {b} , {c}")
+        for col in reader:
+            c = col["District"]
+            a = float(col["Total number of registered voters"])
+            b = float(col["Total population"])
             ratio = (a / b) * 100
-            # c = col[0]
-            temp.append(ratio)
-            # temp.append(col[0])
-            # print(f"{ratio} , {c}")
             last = (ratio,c)
-            print(f"{last[0]} , {last[1]}")
-             
-        print(temp)   
-        data = min(temp)
-        
-    
-print(f"Minimum ratio is {data} of {c} district")
-
-        
+            thisdict = {}
+            thisdict.update({"ratio": ratio})
+            thisdict.update({"district":c})
+            temp.append(thisdict)
+        least = temp[0]["ratio"]
+        dis  = temp[0]["district"]
+        for item in temp:
+            if least>item["ratio"]:
+                least = item["ratio"]
+                dis = item["district"]
+        print(least)
+        print(dis)
+           
